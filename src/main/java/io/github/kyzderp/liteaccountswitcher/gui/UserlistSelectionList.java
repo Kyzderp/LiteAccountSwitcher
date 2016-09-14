@@ -34,8 +34,8 @@ public class UserlistSelectionList extends GuiListExtended
 	{
 		this.userFile.loadUsers();
 		this.entries.clear();
-		for (AccountInfo info: this.userFile.getUserList())
-			this.entries.add(new UserlistSelectionEntry(this, info));
+		for (AccountInfo account: this.userFile.getUserList())
+			this.entries.add(new UserlistSelectionEntry(this, account));
 	}
 
 	/**

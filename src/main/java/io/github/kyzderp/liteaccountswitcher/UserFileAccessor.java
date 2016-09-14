@@ -64,7 +64,11 @@ public class UserFileAccessor
 					String login = element.get("Login").getAsString();
 					String pass = element.get("Password").getAsString();
 					String status = element.get("Status").getAsString();
-					AccountInfo accData = new AccountInfo(login, pass, user, status);
+					String notes = "";
+					if (element.has("Notes"))
+						notes = element.get("Notes").getAsString();
+					
+					AccountInfo accData = new AccountInfo(login, pass, user, status, notes);
 					this.userlist.add(accData);
 				}
 			}
@@ -87,13 +91,14 @@ public class UserFileAccessor
 		JsonObject json = new JsonObject();
 		int n = 1;
 
-		for (AccountInfo accData : userlist) 
+		for (AccountInfo account : userlist) 
 		{
 			JsonObject obj = new JsonObject();
-			obj.addProperty("Username", accData.username);
-			obj.addProperty("Login", accData.login);
-			obj.addProperty("Password", accData.password);
-			obj.addProperty("Status", accData.status);
+			obj.addProperty("Username", account.username);
+			obj.addProperty("Login", account.login);
+			obj.addProperty("Password", account.password);
+			obj.addProperty("Status", account.status);
+			obj.addProperty("Notes", account.notes);
 			json.add("" + n, obj);
 			n++;
 		}

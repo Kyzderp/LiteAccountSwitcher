@@ -20,8 +20,9 @@ public class EditUserGui extends GuiScreen
 
 	private GuiHiddenTextField passField;
 	private GuiTextField loginField;
+	private GuiTextField notesField;
 
-	private AccountInfo info;
+	private AccountInfo account;
 	private boolean isNewUser;
 
 	private String title;
@@ -30,16 +31,16 @@ public class EditUserGui extends GuiScreen
 	{
 		this.userfile = userFile;
 		this.accManager = accountManager;
-		this.info = null;
+		this.account = null;
 		this.isNewUser = true;
 		this.title = "Add New User";
 	}
 
-	public EditUserGui(UserFileAccessor userFile, AccountManager accountManager, AccountInfo info)
+	public EditUserGui(UserFileAccessor userFile, AccountManager accountManager, AccountInfo account)
 	{
 		this.userfile = userFile;
 		this.accManager = accountManager;
-		this.info = info;
+		this.account = account;
 		this.isNewUser = false;
 		this.title = "Edit User";
 	}
@@ -63,10 +64,15 @@ public class EditUserGui extends GuiScreen
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 18, "Done"));
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 18, "Cancel"));
-		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, 130, "Hide/Show Password"));
-		this.loginField = new GuiTextField(0, this.fontRendererObj, this.width / 2 - 100, 66, 200, 20);
+		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, 150, "Hide/Show Password"));
+		
+		this.loginField = new GuiTextField(0, this.fontRendererObj, this.width / 2 - 100, 46, 200, 20);
 		this.loginField.setFocused(true);
-		this.passField = new GuiHiddenTextField(1, this.width / 2 - 100, 106, 200, 20);
+		
+		this.notesField = new GuiTextField(1, this.fontRendererObj, this.width / 2 - 100, 86, 200, 20);
+		this.notesField.setMaxStringLength(18);
+		
+		this.passField = new GuiHiddenTextField(1, this.width / 2 - 100, 126, 200, 20);
 		this.passField.setMaxStringLength(128);
 		this.passField.setSecret(true);
 
@@ -74,22 +80,24 @@ public class EditUserGui extends GuiScreen
 		{
 			this.loginField.setText("");
 			this.passField.setText("");
+			this.notesField.setText("");
 		}
 		else
 		{
-			this.loginField.setText(this.info.login);
+			this.loginField.setText(this.account.login);
+			this.notesField.setText(this.account.notes);
 
-			if (!this.info.password.isEmpty())
+			if (!this.account.password.isEmpty())
 			{
 				try {
-					this.passField.setText(Encryption.decrypt(this.info.password));
+					this.passField.setText(Encryption.decrypt(this.account.password));
 				} catch (Exception e) {
 					this.passField.setText("Wrong key!");
 				}
 			}
 		}
 
-		((GuiButton)this.buttonList.get(0)).enabled = !this.passField.getText().isEmpty() && this.passField.getText().split(":").length > 0 && !this.loginField.getText().isEmpty();
+		((GuiButton)this.buttonList.get(0)).enabled = !this.loginField.getText().isEmpty();
 	}
 
 	/**
@@ -119,20 +127,22 @@ public class EditUserGui extends GuiScreen
 			{
 				if(isNewUser) 
 				{
-					this.userfile.getUserList().add(new AccountInfo(loginField.getText(), passField.getText()));
+					this.userfile.getUserList().add(new AccountInfo(this.loginField.getText(), 
+							this.passField.getText(), this.notesField.getText()));
 				} 
 				else 
 				{
-					this.info.login = this.loginField.getText();
+					this.account.login = this.loginField.getText();
+					this.account.notes = this.notesField.getText();
 					if (this.passField.getText().isEmpty())
 					{
-						this.info.password = "";
-						this.info.status = "Cracked";
+						this.account.password = "";
+						this.account.status = "Cracked";
 					}
 					else
 					{
-						this.info.password = Encryption.encrypt(passField.getText());
-						this.info.status = "Unverified";
+						this.account.password = Encryption.encrypt(passField.getText());
+						this.account.status = "Unverified";
 					}
 				}
 				this.userfile.saveUsers();
@@ -148,12 +158,29 @@ public class EditUserGui extends GuiScreen
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{
 		this.loginField.textboxKeyTyped(typedChar, keyCode);
+		this.notesField.textboxKeyTyped(typedChar, keyCode);
 		this.passField.textboxKeyTyped(typedChar, keyCode);
 
-		if (keyCode == 15)
+		if (keyCode == Keyboard.KEY_TAB)
 		{
-			this.loginField.setFocused(!this.loginField.isFocused());
-			this.passField.setFocused(!this.passField.isFocused());
+			if (this.loginField.isFocused())
+			{
+				this.loginField.setFocused(false);
+				this.notesField.setFocused(true);
+				this.passField.setFocused(false);
+			}
+			else if (this.notesField.isFocused())
+			{
+				this.loginField.setFocused(false);
+				this.notesField.setFocused(false);
+				this.passField.setFocused(true);
+			}
+			else
+			{
+				this.loginField.setFocused(true);
+				this.notesField.setFocused(false);
+				this.passField.setFocused(false);
+			}
 		}
 
 		if (keyCode == 28 || keyCode == 156)
@@ -173,6 +200,7 @@ public class EditUserGui extends GuiScreen
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.passField.mouseClicked(mouseX, mouseY, mouseButton);
 		this.loginField.mouseClicked(mouseX, mouseY, mouseButton);
+		this.notesField.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	/**
@@ -182,9 +210,11 @@ public class EditUserGui extends GuiScreen
 	{
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 17, 16777215);
-		this.drawString(this.fontRendererObj, "Username / Email", this.width / 2 - 100, 53, 10526880);
-		this.drawString(this.fontRendererObj, "Password", this.width / 2 - 100, 94, 10526880);
+		this.drawString(this.fontRendererObj, "Username / Email", this.width / 2 - 100, 33, 10526880);
+		this.drawString(this.fontRendererObj, "Short Note", this.width / 2 - 100, 73, 10526880);
+		this.drawString(this.fontRendererObj, "Password", this.width / 2 - 100, 113, 10526880);
 		this.loginField.drawTextBox();
+		this.notesField.drawTextBox();
 		this.passField.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

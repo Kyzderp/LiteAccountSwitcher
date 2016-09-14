@@ -14,6 +14,7 @@ public class UserlistSelectionEntry implements GuiListExtended.IGuiListEntry
 	private final UserlistSelectionList containingListSel;
 	private final AccountInfo account;
 	private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");
+	private long lastClickTime = 0;
 
 	public UserlistSelectionEntry(UserlistSelectionList listWorldSelIn, AccountInfo account)
 	{
@@ -35,6 +36,8 @@ public class UserlistSelectionEntry implements GuiListExtended.IGuiListEntry
 		this.mc.fontRendererObj.drawString(this.account.username, x + 32 + 3, y + 1, 16777215);
 		this.mc.fontRendererObj.drawString(this.account.login, x + 32 + 3, y + this.mc.fontRendererObj.FONT_HEIGHT + 3, 8421504);
 		this.mc.fontRendererObj.drawString(this.account.status, x + 32 + 3, y + this.mc.fontRendererObj.FONT_HEIGHT + this.mc.fontRendererObj.FONT_HEIGHT + 3, color);
+		int notesWidth = this.mc.fontRendererObj.getStringWidth(this.account.notes);
+		this.mc.fontRendererObj.drawString(this.account.notes, x + 265 - notesWidth, y + this.mc.fontRendererObj.FONT_HEIGHT + this.mc.fontRendererObj.FONT_HEIGHT + 3, 8421504);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		if (this.mc.gameSettings.touchscreen || isSelected)
@@ -110,6 +113,14 @@ public class UserlistSelectionEntry implements GuiListExtended.IGuiListEntry
 		}
 
 		this.containingListSel.selectEntry(slotIndex);
+
+		if (Minecraft.getSystemTime() - this.lastClickTime < 250L)
+		{
+			this.containingListSel.selectEntry(slotIndex);
+			this.containingListSel.runSelected();
+		}
+
+		this.lastClickTime = Minecraft.getSystemTime();
 		return true;
 	}
 

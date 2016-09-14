@@ -27,7 +27,7 @@ public class LiteModAccountSwitcher implements Tickable
 	@Override
 	public String getName() { return "Lite Account Switcher"; }
 	@Override
-	public String getVersion() { return "1.0.0"; }
+	public String getVersion() { return "1.1.0"; }
 
 	public LiteModAccountSwitcher() 
 	{
