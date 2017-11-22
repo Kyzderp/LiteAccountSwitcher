@@ -24,17 +24,14 @@ public class LiteModAccountSwitcher implements Tickable
 	private UserFileAccessor userfile;
 	private AccountManager accManager;
 
-	@Override
 	public String getName() { return "Lite Account Switcher"; }
-	@Override
-	public String getVersion() { return "1.1.1"; }
+	public String getVersion() { return "1.2.0"; }
 
 	public LiteModAccountSwitcher() 
 	{
 		instance = this;
 	}
 
-	@Override
 	public void init(File configPath) 
 	{
 		LiteLoader.getInput().registerKeyBinding(keyGui);
@@ -42,10 +39,8 @@ public class LiteModAccountSwitcher implements Tickable
 		this.accManager = new AccountManager();
 	}
 
-	@Override
 	public void upgradeSettings(String version, File configPath, File oldConfigPath) {}
 
-	@Override
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) 
 	{
 		// Allow switching ingame

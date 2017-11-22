@@ -8,7 +8,7 @@ public class GuiHiddenTextField extends GuiTextField {
 	private boolean showText = false;
 	
 	public GuiHiddenTextField(int id, int x, int y, int width, int height) {
-		super(id, Minecraft.getMinecraft().fontRendererObj, x, y, width, height);
+		super(id, Minecraft.getMinecraft().fontRenderer, x, y, width, height);
 	}
 	
 	

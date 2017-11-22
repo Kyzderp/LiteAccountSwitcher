@@ -66,10 +66,10 @@ public class EditUserGui extends GuiScreen
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 18, "Cancel"));
 		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, 150, "Hide/Show Password"));
 		
-		this.loginField = new GuiTextField(0, this.fontRendererObj, this.width / 2 - 100, 46, 200, 20);
+		this.loginField = new GuiTextField(0, this.fontRenderer, this.width / 2 - 100, 46, 200, 20);
 		this.loginField.setFocused(true);
 		
-		this.notesField = new GuiTextField(1, this.fontRendererObj, this.width / 2 - 100, 86, 200, 20);
+		this.notesField = new GuiTextField(1, this.fontRenderer, this.width / 2 - 100, 86, 200, 20);
 		this.notesField.setMaxStringLength(18);
 		
 		this.passField = new GuiHiddenTextField(1, this.width / 2 - 100, 126, 200, 20);
@@ -209,10 +209,10 @@ public class EditUserGui extends GuiScreen
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 17, 16777215);
-		this.drawString(this.fontRendererObj, "Username / Email", this.width / 2 - 100, 33, 10526880);
-		this.drawString(this.fontRendererObj, "Short Note", this.width / 2 - 100, 73, 10526880);
-		this.drawString(this.fontRendererObj, "Password", this.width / 2 - 100, 113, 10526880);
+		this.drawCenteredString(this.fontRenderer, this.title, this.width / 2, 17, 16777215);
+		this.drawString(this.fontRenderer, "Username / Email", this.width / 2 - 100, 33, 10526880);
+		this.drawString(this.fontRenderer, "Short Note", this.width / 2 - 100, 73, 10526880);
+		this.drawString(this.fontRenderer, "Password", this.width / 2 - 100, 113, 10526880);
 		this.loginField.drawTextBox();
 		this.notesField.drawTextBox();
 		this.passField.drawTextBox();

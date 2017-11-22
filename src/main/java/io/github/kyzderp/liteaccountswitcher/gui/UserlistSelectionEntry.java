@@ -23,7 +23,7 @@ public class UserlistSelectionEntry implements GuiListExtended.IGuiListEntry
 		this.mc = Minecraft.getMinecraft();
 	}
 
-	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
+	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
 	{
 		int color = 8421504;
 		if (this.account.status.equals("Premium"))
@@ -33,11 +33,11 @@ public class UserlistSelectionEntry implements GuiListExtended.IGuiListEntry
 				|| this.account.status.equals("Wrong Key"))
 			color = 16737380;
 
-		this.mc.fontRendererObj.drawString(this.account.username, x + 32 + 3, y + 1, 16777215);
-		this.mc.fontRendererObj.drawString(this.account.login, x + 32 + 3, y + this.mc.fontRendererObj.FONT_HEIGHT + 3, 8421504);
-		this.mc.fontRendererObj.drawString(this.account.status, x + 32 + 3, y + this.mc.fontRendererObj.FONT_HEIGHT + this.mc.fontRendererObj.FONT_HEIGHT + 3, color);
-		int notesWidth = this.mc.fontRendererObj.getStringWidth(this.account.notes);
-		this.mc.fontRendererObj.drawString(this.account.notes, x + 265 - notesWidth, y + this.mc.fontRendererObj.FONT_HEIGHT + this.mc.fontRendererObj.FONT_HEIGHT + 3, 8421504);
+		this.mc.fontRenderer.drawString(this.account.username, x + 32 + 3, y + 1, 16777215);
+		this.mc.fontRenderer.drawString(this.account.login, x + 32 + 3, y + this.mc.fontRenderer.FONT_HEIGHT + 3, 8421504);
+		this.mc.fontRenderer.drawString(this.account.status, x + 32 + 3, y + this.mc.fontRenderer.FONT_HEIGHT + this.mc.fontRenderer.FONT_HEIGHT + 3, color);
+		int notesWidth = this.mc.fontRenderer.getStringWidth(this.account.notes);
+		this.mc.fontRenderer.drawString(this.account.notes, x + 265 - notesWidth, y + this.mc.fontRenderer.FONT_HEIGHT + this.mc.fontRenderer.FONT_HEIGHT + 3, 8421504);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		if (this.mc.gameSettings.touchscreen || isSelected)
@@ -143,5 +143,10 @@ public class UserlistSelectionEntry implements GuiListExtended.IGuiListEntry
 	public void delete()
 	{
 		this.containingListSel.deleteEntry(this);
+	}
+
+	public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
+		// TODO Auto-generated method stub
+		
 	}
 }

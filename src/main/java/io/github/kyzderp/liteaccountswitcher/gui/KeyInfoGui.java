@@ -71,7 +71,7 @@ public class KeyInfoGui extends GuiScreen
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, "What is the \"Key\"?", this.width / 2, this.height / 2 - 100, 16777215);
+		this.drawCenteredString(this.fontRenderer, "What is the \"Key\"?", this.width / 2, this.height / 2 - 100, 16777215);
 
 		String[] lines = {"Your key is the \"password\" that is used to encrypt your login",
 				"credentials. Think of it as an extra layer of security so that someone",
@@ -83,7 +83,7 @@ public class KeyInfoGui extends GuiScreen
 		int y = 0;
 		for (String line: lines)
 		{
-			this.drawString(this.fontRendererObj, line, this.width / 2 - 180, this.height / 2 - 70 + y, 16777215);
+			this.drawString(this.fontRenderer, line, this.width / 2 - 180, this.height / 2 - 70 + y, 16777215);
 			y += 14;
 		}
 

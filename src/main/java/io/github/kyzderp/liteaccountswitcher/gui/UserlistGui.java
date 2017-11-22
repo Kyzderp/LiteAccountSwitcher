@@ -77,7 +77,7 @@ public class UserlistGui extends GuiScreen
 		this.offlineButton.enabled = false;
 		this.deleteButton.enabled = false;
 
-		this.keyField = new GuiTextField(0, this.mc.fontRendererObj, this.width / 2 + 29, this.height - 50, 100, 16);
+		this.keyField = new GuiTextField(0, this.mc.fontRenderer, this.width / 2 + 29, this.height - 50, 100, 16);
 		this.keyField.setFocused(true);
 		this.keyField.setText(Encryption.currentKey);
 
@@ -140,12 +140,12 @@ public class UserlistGui extends GuiScreen
 	{
 		this.selectionList.drawScreen(mouseX, mouseY, partialTicks);
 		this.keyField.drawTextBox();
-		this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 20, 16777215);
+		this.drawCenteredString(this.fontRenderer, this.title, this.width / 2, 20, 16777215);
 		
 		if (!this.message.isEmpty())
-			this.drawCenteredString(this.fontRendererObj, this.message, this.width / 2, 5, 6618980);
+			this.drawCenteredString(this.fontRenderer, this.message, this.width / 2, 5, 6618980);
 		
-		this.drawString(this.fontRendererObj, "Key", this.width / 2 + 5, this.height - 46, 16777215);
+		this.drawString(this.fontRenderer, "Key", this.width / 2 + 5, this.height - 46, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
